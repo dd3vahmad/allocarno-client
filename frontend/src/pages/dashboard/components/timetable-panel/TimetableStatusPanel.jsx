@@ -36,7 +36,7 @@ const TimetableStatusPanel = () => {
             <button className="see-all-button">See All</button>
 
             {/* Quick Actions Panel */}
-            <QuickActionsPanel />
+            <QuickActionsPanel/>
         </div>
     )
 }

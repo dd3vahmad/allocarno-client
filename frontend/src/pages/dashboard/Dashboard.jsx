@@ -10,13 +10,15 @@ const Dashboard = () => {
     return (
         <div className="dashboard-container">
             <Navbar />
+            
             {/* sidebar area */}
             <div className="dashboard-main">
-                <Sidebar />
+                {/* include side bar */}
+                <Sidebar currentPage="dashboard" />
 
                 {/* main dashboard area */}
                 <div className="content-area">
-                    <div className="flex dashborad-content">
+                    <div className="flex">
                         {/* Left Column */}
                         <div className="dashboard-column left">
                             {/* Metrics Panel */}

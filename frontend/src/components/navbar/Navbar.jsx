@@ -35,7 +35,7 @@ const Navbar = () => {
                         </div>
                     </div>
                     <div className="flex items-center gap-4 auth-buttons">
-                        <Link to="/join-beta">
+                        <Link to="/dashboard">
                             <ButtonSolid value="Join Beta" />
                         </Link>
                         <Link to="/login">

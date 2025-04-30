@@ -12,7 +12,7 @@ const Heroscetion = () => {
 
     <section className="hero">
       <div className="notification">
-        <span className="notification-icon"><img src={notificationIcon} /></span>
+        <span><img src={notificationIcon}/></span>
         <span className="notification-text">10,000+ Smart Students Convinced</span>
       </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BiSolidUpArrow } from "react-icons/bi";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { MdOutlineCloudUpload } from "react-icons/md";
@@ -8,13 +8,12 @@ import { SiDavinciresolve } from "react-icons/si";
 import { GrTransaction } from "react-icons/gr";
 import { IoIosSettings } from "react-icons/io";
 import { IoLogOutOutline } from "react-icons/io5";
+import { Link } from 'react-router-dom';
 
 
-const Sidebar = () => {
-    const [activeIndex, setActiveIndex] = useState("dashboard")
+const Sidebar = ({ currentPage }) => {
 
     return (
-
         <div className="sidebar">
             <div className="sidebar-section">
                 <div className="flex items-center gap-4 pl-2 sidebar-header">
@@ -22,42 +21,65 @@ const Sidebar = () => {
                     <span><BiSolidUpArrow /></span>
                 </div>
                 <ul className="sidebar-menu">
-                    <li className={`flex items-center gap-4 ${activeIndex === "dashboard" ? "active" : ""}`} onClick={() => setActiveIndex("dashboard")}> 
-                        <span className="menu-icon">
-                            <LuLayoutDashboard />
-                        </span>
-                        <p> Dashboard</p>
-                    </li>
-                    <li className={`flex items-center gap-4 ${activeIndex === "upload" ? "active" : ""}`} onClick={() => setActiveIndex("upload")}> 
-                        <span className="menu-icon">
-                            <MdOutlineCloudUpload />
-                        </span>
-                        <p> Upload Data</p>
-                    </li>
-                   <li className={`flex items-center gap-4 ${activeIndex === "generate" ? "active" : ""}`} onClick={() => setActiveIndex("generate")}> 
-                        <span className="menu-icon">
-                            <RiAiGenerate />
-                        </span>
-                        <p>Generate Timetable</p>
-                    </li>
-                    <li className={`flex items-center gap-4 ${activeIndex === "publish" ? "active" : ""}`} onClick={() => setActiveIndex("publish")}> 
-                        <span className="menu-icon">
-                            <MdOutlinePublishedWithChanges />
-                        </span>
-                        <p>Publish to Blockchain</p>
-                    </li>
-                   <li className={`flex items-center gap-4 ${activeIndex === "resolve" ? "active" : ""}`} onClick={() => setActiveIndex("resolve")}> 
-                        <span className="menu-icon">
-                            <SiDavinciresolve />
-                        </span>
-                        <p>Resolve Conflicts</p>
-                    </li>
-                   <li className={`flex items-center gap-4 ${activeIndex === "transaction" ? "active" : ""}`} onClick={() => setActiveIndex("transaction")}> 
-                        <span className="menu-icon">
-                            <GrTransaction />
-                        </span>
-                        <p>Transaction logs</p>
-                    </li>
+                    <Link to="/dashboard">
+                        <li className={`flex items-center gap-4 ${currentPage === "dashboard" ? "active" : ""}`}>
+                            <span className="menu-icon">
+                                <LuLayoutDashboard />
+                            </span>
+                            <p> Dashboard</p>
+                        </li>
+                    </Link>
+
+                    {/* upload data page */}
+                    <Link to="/dashboard/upload">
+                        <li className={`flex items-center gap-4 ${currentPage === "upload" ? "active" : ""}`}>
+                            <span className="menu-icon">
+                                <MdOutlineCloudUpload />
+                            </span>
+                            <p> Upload Data</p>
+                        </li>
+                    </Link>
+
+                    {/* generate timetable page */}
+                    <Link to="/dashboard/generate-timetable">
+                        <li className={`flex items-center gap-4 ${currentPage === "generate" ? "active" : ""}`}>
+                            <span className="menu-icon">
+                                <RiAiGenerate />
+                            </span>
+                            <p>Generate Timetable</p>
+                        </li>
+                    </Link>
+
+                    {/* publish to blockchain page */}
+                    <Link to="/dashboard/publish">
+                        <li className={`flex items-center gap-4 ${currentPage === "publish" ? "active" : ""}`}>
+                            <span className="menu-icon">
+                                <MdOutlinePublishedWithChanges />
+                            </span>
+                            <p>Publish to Blockchain</p>
+                        </li>
+                    </Link>
+
+                    {/* resolve conflict */}
+                    <Link to="/dashboard/resolve-conflicts">
+                        <li className={`flex items-center gap-4 ${currentPage === "resolve" ? "active" : ""}`}>
+                            <span className="menu-icon">
+                                <SiDavinciresolve />
+                            </span>
+                            <p>Resolve Conflicts</p>
+                        </li>
+                    </Link>
+
+                    {/* Transaction logs page */}
+                    <Link to="/dashboard/transactions">
+                        <li className={`flex items-center gap-4 ${currentPage === "transaction" ? "active" : ""}`}>
+                            <span className="menu-icon">
+                                <GrTransaction />
+                            </span>
+                            <p>Transaction logs</p>
+                        </li>
+                    </Link>
+
                 </ul>
             </div>
 
@@ -67,12 +89,16 @@ const Sidebar = () => {
                     <span><BiSolidUpArrow /></span>
                 </div>
                 <ul className="sidebar-menu">
-                <li className={`flex items-center gap-4 ${activeIndex === "settings" ? "active" : ""}`} onClick={() => setActiveIndex("settings")}> 
-                        <span className="menu-icon">
-                            <IoIosSettings />
-                        </span>
-                        <p>Settings</p>
-                    </li>
+
+                    {/* settings */}
+                    <Link to="/dashboard/settings">
+                        <li className={`flex items-center gap-4 ${currentPage === "settings" ? "active" : ""}`}>
+                            <span className="menu-icon">
+                                <IoIosSettings />
+                            </span>
+                            <p>Settings</p>
+                        </li>
+                    </Link>
                 </ul>
             </div>
 
@@ -87,10 +113,13 @@ const Sidebar = () => {
 
                 </ul>
             </div>
-
-
         </div>
+
     )
+
+
 }
 
 export default Sidebar
+
+

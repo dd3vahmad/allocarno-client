@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "../../dashboard.css";
 import { FiSearch } from "react-icons/fi";
 import { LuMessageCircleMore } from "react-icons/lu";
@@ -9,6 +9,15 @@ import NotificationBox from '../notification-box/NotificationBox';
 
 
 const Navbar = () => {
+    const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
+    
+    const handleNotificationIconClick = () => {
+        setNotificationModalOpen(true);
+    };
+    const handleNotificationModalClose = () => {
+        setNotificationModalOpen(false);
+    };
+
     return (
         <>
             <header className="dashboard-header">
@@ -26,7 +35,7 @@ const Navbar = () => {
                         <div className="notification-message-icon">
                             <LuMessageCircleMore />
                         </div>
-                        <div className="notification-icon">
+                        <div className="notification-icon" onClick={handleNotificationIconClick}>
                             <IoIosNotificationsOutline />
                         </div>
                         <div className="user-profile">
@@ -45,8 +54,8 @@ const Navbar = () => {
                 </div>
             </header>
 
-
-            {/* <NotificationBox /> */}
+            {/* diplay notification box  */}
+            <NotificationBox isOpen={isNotificationModalOpen} onClose={handleNotificationModalClose} />
         </>
     )
 }
