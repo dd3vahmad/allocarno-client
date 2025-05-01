@@ -68,7 +68,7 @@ const GenerateTimeTable = () => {
                 {/* include the sidebar */}
                 <Sidebar currentPage="generate" />
 
-                {/* main dashboard area */}
+                {/* main generate timetable area */}
                 <div className="content-area">
                     <form onSubmit={handleGenerateTimeTableSubmission}>
                         <div className="timetable-form">

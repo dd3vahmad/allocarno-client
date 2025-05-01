@@ -10,7 +10,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard-container">
             <Navbar />
-            
+
             {/* sidebar area */}
             <div className="dashboard-main">
                 {/* include side bar */}

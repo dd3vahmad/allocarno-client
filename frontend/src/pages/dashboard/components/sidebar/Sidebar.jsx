@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { BiSolidUpArrow } from "react-icons/bi";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { MdOutlineCloudUpload } from "react-icons/md";
@@ -8,7 +9,7 @@ import { SiDavinciresolve } from "react-icons/si";
 import { GrTransaction } from "react-icons/gr";
 import { IoIosSettings } from "react-icons/io";
 import { IoLogOutOutline } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { BsSave } from "react-icons/bs";
 
 
 const Sidebar = ({ currentPage }) => {
@@ -50,6 +51,8 @@ const Sidebar = ({ currentPage }) => {
                         </li>
                     </Link>
 
+
+
                     {/* publish to blockchain page */}
                     <Link to="/dashboard/publish">
                         <li className={`flex items-center gap-4 ${currentPage === "publish" ? "active" : ""}`}>
@@ -77,6 +80,16 @@ const Sidebar = ({ currentPage }) => {
                                 <GrTransaction />
                             </span>
                             <p>Transaction logs</p>
+                        </li>
+                    </Link>
+
+                    {/* saved drafts page */}
+                    <Link to="/dashboard/saved-drafts">
+                        <li className={`flex items-center gap-4 ${currentPage === "saves-draft" ? "active" : ""}`}>
+                            <span className="menu-icon">
+                                <BsSave />
+                            </span>
+                            <p>Saved Draft</p>
                         </li>
                     </Link>
 
