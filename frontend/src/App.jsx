@@ -4,6 +4,10 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import GenerateTimeTable from "./pages/dashboard/pages/generate-timetable/GenerateTimeTable";
 import FileUpload from "./pages/dashboard/pages/upload-file/FileUpload";
 import SaveDraft from "./pages/dashboard/pages/saved-drafts/SaveDraft";
+import Onboarding from "./pages/on-boarding/Onboarding";
+import StudentSignup from "./pages/signup/student/StudentSignup";
+import LecturerSignup from "./pages/signup/lecturer/LecturerSignup";
+import StudentLogin from "./pages/login/studentLogin/StudentLogin";
 function App() {
 
   return (
@@ -14,6 +18,10 @@ function App() {
         <Route path="/dashboard/generate-timetable" element={<GenerateTimeTable />} />
         <Route path="/dashboard/upload" element={<FileUpload />} />
         <Route path="/dashboard/saved-drafts" element={<SaveDraft />} />
+        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/onboarding/s/signup" element={<StudentSignup />} />
+        <Route path="/onboarding/s/login" element={<StudentLogin />} />
+        <Route path="/onboarding/l/signup" element={<LecturerSignup />} />
         {/* handle other pages */}
         <Route path="/*" element={<Home />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
