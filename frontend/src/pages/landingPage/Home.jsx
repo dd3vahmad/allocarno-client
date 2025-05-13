@@ -1,7 +1,7 @@
 import React from 'react'
 import Container from '../../components/container/Container'
 import Navbar from '../../components/navbar/Navbar'
-import Heroscetion from '../../components/heroSection/Heroscetion'
+import Heroscetion from '../../components/heroSection-2/Heroscetion'
 import Features from '../../components/features/Features'
 import FAQ from '../../components/Faq/Faq'
 
