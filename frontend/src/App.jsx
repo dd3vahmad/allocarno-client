@@ -9,29 +9,36 @@ import StudentSignup from "./pages/signup/student/StudentSignup";
 import LecturerSignup from "./pages/signup/lecturer/LecturerSignup";
 import StudentLogin from "./pages/login/studentLogin/StudentLogin";
 import LandingPage from "./pages/landingPage/LandingPage";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./router/ProtectedRoute";
 function App() {
-
   return (
-    < BrowserRouter >
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/generate-timetable" element={<GenerateTimeTable />} />
-        <Route path="/dashboard/upload" element={<FileUpload />} />
-        <Route path="/dashboard/saved-drafts" element={<SaveDraft />} />
-        <Route path="/onboarding" element={<Onboarding />} />
-        <Route path="/onboarding/s/signup" element={<StudentSignup />} />
-        <Route path="/onboarding/s/login" element={<StudentLogin />} />
-        <Route path="/onboarding/l/signup" element={<LecturerSignup />} />
-        {/* handle other pages */}
-        <Route path="/*" element={<LandingPage />} />
-        {/* <Route path="/home" element={<Home />} /> */}
-        <Route path="/dashboard/*" element={<Dashboard />} />
-      </Routes>
-    </BrowserRouter >
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/onboarding/s/signup" element={<StudentSignup />} />
+          <Route path="/onboarding/s/login" element={<StudentLogin />} />
+          <Route path="/onboarding/l/signup" element={<LecturerSignup />} />
+          {/* handle other pages */}
+          <Route path="/*" element={<LandingPage />} />
 
-
-  )
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+              path="/dashboard/generate-timetable"
+              element={<GenerateTimeTable />}
+            />
+            <Route path="/dashboard/upload" element={<FileUpload />} />
+            <Route path="/dashboard/saved-drafts" element={<SaveDraft />} />
+            <Route path="/dashboard/*" element={<Dashboard />} />
+          </Route>
+          {/* <Route path="/home" element={<Home />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
