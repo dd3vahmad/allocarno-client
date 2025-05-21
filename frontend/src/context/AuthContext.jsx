@@ -1,10 +1,28 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "../lib/axios";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+
+  const loadUserFromCookies = async () => {
+    try {
+      const res = await axios.get("/user");
+      const { data, failed, message } = res.data;
+
+      if (failed) {
+        console.error(message);
+        return;
+      }
+
+      setUser(data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const signup = async (formData) => {
     try {
@@ -37,9 +55,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    loadUserFromCookies();
+  }, []);
+
   return (
     <AuthContext.Provider value={{ user, signup, signin, signout }}>
-      {children}
+      {loading ? <p>Loading...</p> : children}
     </AuthContext.Provider>
   );
 };

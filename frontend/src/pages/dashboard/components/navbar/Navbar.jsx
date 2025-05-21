@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../../dashboard.css";
 import { FiSearch } from "react-icons/fi";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa6";
-import userImage from "../../../../assets/dashboard/images/user-image.png";
 import NotificationBox from "../notification-box/NotificationBox";
 import { useAuth } from "../../../../context/AuthContext";
+import { getDaySessionTerm } from "../../../../lib/helpers";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -19,15 +19,13 @@ const Navbar = () => {
     setNotificationModalOpen(false);
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
-
   return (
     <>
       <header className="dashboard-header">
         <div className="greeting">
-          <h1>Good Afternoon, {user.firstName}</h1>
+          <h1>
+            Good {getDaySessionTerm()}, {user.firstName}
+          </h1>
           <p>Welcome Back</p>
         </div>
         <div className="header-right">
