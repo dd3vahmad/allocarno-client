@@ -1,0 +1,14 @@
+.entity-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px dashed #7d7ae5;
+  border-radius: 12px;
+  padding: 24px 12px;
+}
+
+.entity-form input {
+  padding: 7px 12px;
+  border-radius: 5px;
+  outline: 2px solid #7d7ae5;
+}
