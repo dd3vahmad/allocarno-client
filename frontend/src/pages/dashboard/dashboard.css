@@ -254,6 +254,7 @@ header.dashboard-header {
   font-weight: 500;
   font-size: 12px;
   color: #bdbdbd;
+  text-transform: capitalize;
   padding: 0 10px 0 3px;
 }
 .dropdown-icon {
