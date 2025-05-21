@@ -151,9 +151,19 @@ const StudentSignup = () => {
               .
             </div>
 
-            <button type="submit" className="signup-button">
+            <button
+              type="submit"
+              style={{ marginBottom: "10px" }}
+              className="signup-button"
+            >
               Signup
             </button>
+            <p style={{ fontWeight: 600 }}>
+              Already have an account?{" "}
+              <Link to={"/onboarding/s/login"} className="login-link">
+                Login
+              </Link>
+            </p>
           </form>
 
           <div className="flex items-center justify-between signup-page-footer">
