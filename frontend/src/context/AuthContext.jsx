@@ -28,8 +28,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const signout = async () => {
+    try {
+      await axios.post("/auth/signout");
+    } catch (error) {
+      console.error(error);
+      alert("Error signing you out.");
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, signup, signin }}>
+    <AuthContext.Provider value={{ user, signup, signin, signout }}>
       {children}
     </AuthContext.Provider>
   );
