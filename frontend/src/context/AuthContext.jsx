@@ -1,19 +1,37 @@
 import { createContext, useContext, useState } from "react";
+import axios from "../lib/axios";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const signin = () => {
+
+  const signup = async (formData) => {
     try {
-      //
+      const res = await axios.post("/auth/signup", formData);
+      const { data, failed } = res.data;
+      if (!failed) setUser(data);
     } catch (error) {
-      //
+      console.error(error);
+      alert("An error occurred while signing up");
+    }
+  };
+
+  const signin = async (formData) => {
+    try {
+      const res = await axios.post("/auth/signin", formData);
+      const { data, failed } = res.data;
+      if (!failed) setUser(data);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while signing in");
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, signup, signin }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

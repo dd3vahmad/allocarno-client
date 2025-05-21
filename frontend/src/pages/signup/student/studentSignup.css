@@ -45,7 +45,8 @@
   margin-bottom: 20px;
 }
 
-.student .input-field input {
+.student .input-field input,
+.student .input-field select {
   width: 100%;
   padding: 10px 40px 10px 15px;
   border: 1px solid #d0d5dd;
@@ -150,7 +151,6 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
-
 
 /* Responsive Design */
 @media (max-width: 768px) {
