@@ -40,7 +40,9 @@ const StudentForm = () => {
         onChange={(e) => setShortName(e.target.value)}
         required
       />
-      <button type="submit">Add Student Group</button>
+      <button type="submit" className="upload-button">
+        Add Student Group
+      </button>
     </form>
   );
 };

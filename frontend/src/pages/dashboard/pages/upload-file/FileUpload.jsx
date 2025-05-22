@@ -73,7 +73,7 @@ const FileUpload = () => {
         <Sidebar currentPage="upload" />
         <div className="content-area">
           <div className="file-upload-container">
-            <h1 className="text-center upload-title">Upload or Add Entities</h1>
+            <h1 className="upload-title">Upload or Add Entities</h1>
             <select
               className="entity-selector"
               value={entityType}
@@ -86,9 +86,9 @@ const FileUpload = () => {
             </select>
 
             <p className="text-center upload-description">
-              Upload a <span className="format">.PDF</span>,{" "}
+              Upload an <span className="format">.XLSX</span>,{" "}
               <span className="format">.CSV</span>, or{" "}
-              <span className="format">.DOCX</span> file (Max 10MB) or add
+              <span className="format">.DOCX</span> file (Max 5MB) or add
               manually below
             </p>
 

@@ -48,7 +48,9 @@ const LecturerForm = () => {
         <option value="doctor">Doctor</option>
         <option value="professor">Professor</option>
       </select>
-      <button type="submit">Add Lecturer</button>
+      <button type="submit" className="upload-button">
+        Add Lecturer
+      </button>
     </form>
   );
 };

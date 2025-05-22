@@ -52,7 +52,9 @@ const HallForm = () => {
         min={1}
         required
       />
-      <button type="submit">Add Hall</button>
+      <button type="submit" className="upload-button">
+        Add Hall
+      </button>
     </form>
   );
 };
