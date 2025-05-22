@@ -119,10 +119,7 @@
   align-items: center;
   border-radius: 12px;
   border: 2px dashed #7d7ae5;
-  height: 100%;
-  margin-top: 25px;
   padding: 16px 20px;
-  min-height: 700px;
 }
 
 .entity-header {
