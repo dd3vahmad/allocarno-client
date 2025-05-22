@@ -16,7 +16,12 @@ const FileUpload = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [entityType, setEntityType] = useState("course");
   const [dataMap, setDataMap] = useState({
-    course: [],
+    course: [
+      { code: "SEN23", name: "Software Engineering" },
+      { code: "SEN23", name: "Software Engineering" },
+      { code: "SEN23", name: "Software Engineering" },
+      { code: "SEN23", name: "Software Engineering" },
+    ],
     hall: [],
     lecturer: [],
     "student group": [],
@@ -186,7 +191,7 @@ const FileUpload = () => {
 
             <div className="entity-container">
               <h2 className="entity-header">{entityType}s</h2>
-              <div className="entity-content">{renderTable()}</div>
+              {renderTable()}
             </div>
           </div>
         </div>
