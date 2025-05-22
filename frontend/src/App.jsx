@@ -9,13 +9,25 @@ import StudentSignup from "./pages/signup/student/StudentSignup";
 import LecturerSignup from "./pages/signup/lecturer/LecturerSignup";
 import StudentLogin from "./pages/login/studentLogin/StudentLogin";
 import LandingPage from "./pages/landingPage/LandingPage";
+
+import StudentDashboard from "./pages/dashboard/student/StudentDashboard";
+import TimeTable from "./pages/dashboard/student/pages/timetable/TimeTable";
+import Complain from "./pages/dashboard/student/pages/complaint/Complain";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./router/ProtectedRoute";
 function App() {
   return (
+
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/dashboard" element={<Dashboard />} /> 
+          <Route path="/dashboard/student" element={<StudentDashboard />} /> 
+          <Route path="/dashboard/student/timetable" element={<TimeTable />} /> 
+          <Route path="/dashboard/student/complain" element={<Complain />} />
+          <Route path="/dashboard/student/registration" element={<StudentDashboard />} /> 
+
           <Route path="/" element={<LandingPage />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/onboarding/s/signup" element={<StudentSignup />} />
@@ -23,6 +35,7 @@ function App() {
           <Route path="/onboarding/l/signup" element={<LecturerSignup />} />
           {/* handle other pages */}
           <Route path="/*" element={<LandingPage />} />
+
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
