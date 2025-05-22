@@ -86,6 +86,7 @@
 }
 
 .upload-button {
+  flex: 1;
   background-color: #7d7ae5;
   color: white;
   border: none;

@@ -1,9 +1,17 @@
 import { useState } from "react";
+import axios from "../../../../lib/axios";
+import "./HallForm.css";
+import TimeSlot from "./TimeSlot";
+import { BsInfoCircle, BsPlus } from "react-icons/bs";
 
 const HallForm = () => {
   const [name, setName] = useState("");
   const [shortName, setShortName] = useState("");
   const [capacity, setCapacity] = useState(0);
+  const [showInfo, setShowInfo] = useState(false);
+  const [timeSlots, setTimeSlots] = useState([
+    { day: "Sunday", startTime: "", endTime: "" },
+  ]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -12,14 +20,16 @@ const HallForm = () => {
     }
 
     try {
-      const res = await fetch("/api/halls", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, shortName, capacity }),
-      });
-      const data = await res.json();
-      alert(data.message || "Hall added successfully");
-      // Optionally, clear the form:
+      const res = await axios.post("/v1/halls", { name, shortName, capacity });
+      const { message, failed } = await res.data;
+
+      if (failed) {
+        alert(message || "Error adding hall.");
+        return;
+      }
+
+      alert(message || "Hall added successfully");
+
       setName("");
       setShortName("");
       setCapacity(0);
@@ -33,6 +43,7 @@ const HallForm = () => {
       <input
         type="text"
         placeholder="Hall Name"
+        base-button
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
@@ -44,17 +55,44 @@ const HallForm = () => {
         onChange={(e) => setShortName(e.target.value)}
         required
       />
-      <input
-        type="number"
-        placeholder="Capacity"
-        value={capacity}
-        onChange={(e) => setCapacity(Number(e.target.value))}
-        min={1}
-        required
-      />
-      <button type="submit" className="upload-button">
-        Add Hall
-      </button>
+
+      <div className="time-slots-header">
+        <h2 className="time-slots-title">Time Slots</h2>
+        <p onClick={() => setShowInfo(!showInfo)} className="info-toggle">
+          What's this?
+        </p>
+      </div>
+      {showInfo && (
+        <div className="time-slots-info">
+          <BsInfoCircle />{" "}
+          <p>
+            Time ranges when the hall will be active for use, you can add as
+            many as possible.
+          </p>
+        </div>
+      )}
+      <div className="time-slots">
+        {timeSlots.map((slot) => (
+          <TimeSlot />
+        ))}
+      </div>
+
+      <div className="base-button">
+        <button type="submit" className="upload-button">
+          Add Hall
+        </button>
+        <button
+          onClick={() =>
+            setTimeSlots((prev) => [
+              ...prev,
+              { day: "Sunday", startTime: "", endTIme: "" },
+            ])
+          }
+          className="add-slot-button"
+        >
+          <BsPlus size={24} />
+        </button>
+      </div>
     </form>
   );
 };

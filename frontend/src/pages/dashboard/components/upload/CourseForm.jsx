@@ -16,10 +16,13 @@ const CourseForm = () => {
       const { failed, message } = res.data;
 
       if (failed) {
-        alert(message || "Error adding course");
+        alert(message || "Error adding course.");
         return;
       }
       alert(message || "Course added successfully");
+
+      setCode("");
+      setName("");
     } catch (err) {
       alert(err.message || "Error adding course");
     }
