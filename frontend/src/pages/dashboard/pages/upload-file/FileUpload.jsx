@@ -1,6 +1,6 @@
 // "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FiUploadCloud } from "react-icons/fi";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Navbar from "../../components/navbar/Navbar";
@@ -10,18 +10,20 @@ import HallForm from "../../components/upload/HallForm";
 import LecturerForm from "../../components/upload/LecturerForm";
 import StudentForm from "../../components/upload/StudentForm";
 import "./fileUpload.css";
+import axios from "../../../../lib/axios";
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [entityType, setEntityType] = useState("course");
+  const [loadingData, setLoadingData] = useState({
+    course: true,
+    hall: true,
+    lecturer: true,
+    "student group": true,
+  });
   const [dataMap, setDataMap] = useState({
-    course: [
-      { code: "SEN23", name: "Software Engineering" },
-      { code: "SEN23", name: "Software Engineering" },
-      { code: "SEN23", name: "Software Engineering" },
-      { code: "SEN23", name: "Software Engineering" },
-    ],
+    course: [],
     hall: [],
     lecturer: [],
     "student group": [],
@@ -67,6 +69,21 @@ const FileUpload = () => {
     }));
   };
 
+  useEffect(() => {
+    async function fetchEntityDatas() {
+      const res = await axios.get("/v1/courses");
+      const { failed, data, message } = res.data;
+      if (failed) {
+        alert(message);
+        return;
+      }
+      setDataMap((prev) => ({ ...prev, course: data }));
+      setLoadingData((prev) => ({ ...prev, course: false }));
+    }
+
+    fetchEntityDatas();
+  }, []);
+
   const renderForm = () => {
     const commonProps = { onAdd: handleAddEntity };
     switch (entityType) {
@@ -86,7 +103,11 @@ const FileUpload = () => {
   const renderTable = () => {
     const data = dataMap[entityType];
     if (!data || data.length === 0) {
-      return <p className="no-entries">No {entityType}s added yet.</p>;
+      return (
+        <p className="no-entries">
+          {loadingData ? "Loading..." : `No ${entityType}s added yet.`}
+        </p>
+      );
     }
 
     const columns = Object.keys(data[0]);

@@ -9,10 +9,11 @@ const CourseForm = ({ onAdd }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !code) return alert("All fields are required");
+
+    if (!name.trim() || !code) return alert("All fields are required");
 
     try {
-      const res = await axios.post("/v1/courses", { name, code });
+      const res = await axios.post("/v1/courses", { name: name.trim(), code });
       const { failed, message } = res.data;
 
       if (failed) {
@@ -23,7 +24,7 @@ const CourseForm = ({ onAdd }) => {
 
       setCode("");
       setName("");
-      onAdd({ name, code });
+      onAdd({ name: name.trim(), code, id: new Date().getTime() });
     } catch (err) {
       alert(err.message || "Error adding course");
     }
@@ -41,7 +42,7 @@ const CourseForm = ({ onAdd }) => {
         type="text"
         placeholder="Course Name"
         value={name}
-        onChange={(e) => setName(e.target.value.trim())}
+        onChange={(e) => setName(e.target.value)}
       />
       <button type="submit" className="upload-button">
         Add Course

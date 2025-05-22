@@ -1,6 +1,7 @@
 import { useState } from "react";
+import axios from "../../../../lib/axios";
 
-const LecturerForm = () => {
+const LecturerForm = ({ onAdd }) => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("male");
   const [rank, setRank] = useState("lecturer");
@@ -10,17 +11,18 @@ const LecturerForm = () => {
     if (!name) return alert("Name is required");
 
     try {
-      const res = await fetch("/api/lecturers", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, gender, rank }),
-      });
-      const data = await res.json();
-      alert(data.message || "Lecturer added successfully");
-      // Optionally, clear the form:
+      const res = await axios.post("/v1/lecturers", { name, gender, rank });
+      const { failed, message } = await res.data;
+      if (failed) {
+        alert(message || "Error adding lecturer");
+        return;
+      }
+
+      alert(message || "Lecturer added successfully");
       setName("");
       setGender("male");
       setRank("lecturer");
+      onAdd({ name, gender, rank });
     } catch (err) {
       alert("Error adding lecturer");
     }
