@@ -114,16 +114,28 @@
 .entity-container {
   min-width: calc(100% - 840px);
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border-radius: 12px;
   border: 2px dashed #7d7ae5;
   height: 100%;
+  margin-top: 25px;
   padding: 16px 20px;
+  min-height: 700px;
 }
 
 .entity-header {
   font-size: larger;
   font-weight: 600;
   text-transform: capitalize;
+}
+
+.entity-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .file-upload-wrapper {

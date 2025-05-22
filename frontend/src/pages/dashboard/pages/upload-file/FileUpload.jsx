@@ -186,7 +186,7 @@ const FileUpload = () => {
 
             <div className="entity-container">
               <h2 className="entity-header">{entityType}s</h2>
-              {renderTable()}
+              <div className="entity-content">{renderTable()}</div>
             </div>
           </div>
         </div>
