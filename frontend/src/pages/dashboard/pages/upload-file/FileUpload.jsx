@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { useState, useRef } from "react";
 import { FiUploadCloud } from "react-icons/fi";
@@ -15,6 +15,12 @@ const FileUpload = () => {
   const [file, setFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [entityType, setEntityType] = useState("course");
+  const [dataMap, setDataMap] = useState({
+    course: [],
+    hall: [],
+    lecturer: [],
+    "student group": [],
+  });
   const fileInputRef = useRef(null);
 
   const handleDragOver = (e) => {
@@ -27,7 +33,6 @@ const FileUpload = () => {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
-
     const droppedFile = e.dataTransfer.files?.[0];
     if (droppedFile && droppedFile.size <= 10 * 1024 * 1024) {
       setFile(droppedFile);
@@ -47,23 +52,62 @@ const FileUpload = () => {
 
   const handleUpload = () => {
     if (!file) return alert("Please select a file");
-    console.log(`Uploading ${entityType} file:`, file);
     alert(`"${file.name}" uploaded for ${entityType}`);
   };
 
+  const handleAddEntity = (newEntity) => {
+    setDataMap((prev) => ({
+      ...prev,
+      [entityType]: [...prev[entityType], newEntity],
+    }));
+  };
+
   const renderForm = () => {
+    const commonProps = { onAdd: handleAddEntity };
     switch (entityType) {
       case "course":
-        return <CourseForm />;
+        return <CourseForm {...commonProps} />;
       case "hall":
-        return <HallForm />;
+        return <HallForm {...commonProps} />;
       case "lecturer":
-        return <LecturerForm />;
-      case "student":
-        return <StudentForm />;
+        return <LecturerForm {...commonProps} />;
+      case "student group":
+        return <StudentForm {...commonProps} />;
       default:
         return null;
     }
+  };
+
+  const renderTable = () => {
+    const data = dataMap[entityType];
+    if (!data || data.length === 0) {
+      return <p className="no-entries">No {entityType}s added yet.</p>;
+    }
+
+    const columns = Object.keys(data[0]);
+
+    return (
+      <div className="entity-table-wrapper">
+        <table className="entity-table">
+          <thead>
+            <tr>
+              {columns.map((col) => (
+                <th key={col}>{col.toUpperCase()}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((entry, index) => (
+              <tr key={index}>
+                {columns.map((col) => (
+                  <td key={col}>{entry[col]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
   };
 
   return (
@@ -72,73 +116,79 @@ const FileUpload = () => {
       <div className="dashboard-main">
         <Sidebar currentPage="upload" />
         <div className="content-area">
-          <div className="file-upload-container">
-            <h1 className="upload-title">Upload or Add Entities</h1>
-            <select
-              className="entity-selector"
-              value={entityType}
-              onChange={(e) => setEntityType(e.target.value)}
-            >
-              <option value="course">Courses</option>
-              <option value="hall">Halls</option>
-              <option value="lecturer">Lecturers</option>
-              <option value="student">Students</option>
-            </select>
+          <div className="file-upload-wrapper">
+            <div className="file-upload-container">
+              <h1 className="upload-title">Upload or Add Entities</h1>
+              <select
+                className="entity-selector"
+                value={entityType}
+                onChange={(e) => setEntityType(e.target.value)}
+              >
+                <option value="course">Courses</option>
+                <option value="hall">Halls</option>
+                <option value="lecturer">Lecturers</option>
+                <option value="student group">Student Groups</option>
+              </select>
 
-            <p className="text-center upload-description">
-              Upload an <span className="format">.XLSX</span>,{" "}
-              <span className="format">.CSV</span>, or{" "}
-              <span className="format">.DOCX</span> file (Max 5MB) or add
-              manually below
-            </p>
+              <p className="text-center upload-description">
+                Upload an <span className="format">.XLSX</span>,{" "}
+                <span className="format">.CSV</span>, or{" "}
+                <span className="format">.DOCX</span> file (Max 10MB) or add
+                manually below
+              </p>
 
-            <div
-              className={`upload-area ${isDragging ? "dragging" : ""}`}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept=".pdf,.csv,.docx"
-                style={{ display: "none" }}
-              />
+              <div
+                className={`upload-area ${isDragging ? "dragging" : ""}`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept=".xlsx,.csv,.docx"
+                  style={{ display: "none" }}
+                />
 
-              <div className="upload-content">
-                <div className="upload-icon">
-                  <FiUploadCloud size={40} />
+                <div className="upload-content">
+                  <div className="upload-icon">
+                    <FiUploadCloud size={40} />
+                  </div>
+                  <p className="upload-text">
+                    {file
+                      ? file.name
+                      : "Drag and drop or click to choose files"}
+                  </p>
+                  <p className="file-size-info">
+                    <span className="info-icon">
+                      <AiOutlineExclamationCircle />
+                    </span>{" "}
+                    Max file size 10MB
+                  </p>
                 </div>
-                <p className="upload-text">
-                  {file ? file.name : "Drag and drop or click to choose files"}
-                </p>
-                <p className="file-size-info">
-                  <span className="info-icon">
-                    <AiOutlineExclamationCircle />
-                  </span>{" "}
-                  Max file size 10MB
-                </p>
+              </div>
+
+              <button
+                className="upload-button"
+                onClick={handleUpload}
+                disabled={!file}
+              >
+                Upload {entityType}
+              </button>
+
+              <div className="manual-entry-form">
+                <h2 className="form-title">Add a {entityType} manually</h2>
+                {renderForm()}
               </div>
             </div>
 
-            <button
-              className="upload-button"
-              onClick={handleUpload}
-              disabled={!file}
-            >
-              Upload {entityType}
-            </button>
-
-            <div className="manual-entry-form">
-              <h2 className="form-title">Add a {entityType} manually</h2>
-              {renderForm()}
+            <div className="entity-container">
+              <h2 className="entity-header">{entityType}s</h2>
+              {renderTable()}
             </div>
           </div>
-
-          {/* Data display */}
-          <div className="entity-container">Entity Data</div>
         </div>
       </div>
     </div>

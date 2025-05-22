@@ -3,7 +3,7 @@ import "./CourseForm.css";
 import { slugify } from "../../../../lib/helpers";
 import axios from "../../../../lib/axios";
 
-const CourseForm = () => {
+const CourseForm = ({ onAdd }) => {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
 
@@ -23,6 +23,7 @@ const CourseForm = () => {
 
       setCode("");
       setName("");
+      onAdd({ name, code });
     } catch (err) {
       alert(err.message || "Error adding course");
     }

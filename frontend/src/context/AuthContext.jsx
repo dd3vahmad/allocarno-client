@@ -10,16 +10,12 @@ export const AuthProvider = ({ children }) => {
   const loadUserFromCookies = async () => {
     try {
       const res = await axios.get("/user");
-      const { data, failed, message } = res.data;
-
-      if (failed) {
-        console.error(message);
-        return;
-      }
+      const { data } = res.data;
 
       setUser(data);
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error(error);
     }
   };

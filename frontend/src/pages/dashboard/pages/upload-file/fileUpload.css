@@ -119,3 +119,53 @@
   height: 100%;
   padding: 16px 20px;
 }
+
+.entity-header {
+  font-size: larger;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.file-upload-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+}
+
+.entity-table-wrapper {
+  margin-top: 2rem;
+  overflow-x: auto;
+}
+
+.entity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.entity-table thead {
+  background-color: #f4f4f4;
+}
+
+.entity-table th,
+.entity-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.entity-table th {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.entity-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.no-entries {
+  margin-top: 1rem;
+  color: #777;
+  font-style: italic;
+  text-align: center;
+}
