@@ -12,3 +12,7 @@ export const getDaySessionTerm = () => {
 
   return daySessionTerm;
 };
+
+export const slugify = (string: string) => {
+  return string.trim().replaceAll(" ", "").toUpperCase();
+};
