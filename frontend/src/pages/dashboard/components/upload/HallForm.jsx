@@ -72,8 +72,8 @@ const HallForm = () => {
         </div>
       )}
       <div className="time-slots">
-        {timeSlots.map((slot) => (
-          <TimeSlot />
+        {timeSlots.map((slot, i) => (
+          <TimeSlot key={i} slot={slot} />
         ))}
       </div>
 
