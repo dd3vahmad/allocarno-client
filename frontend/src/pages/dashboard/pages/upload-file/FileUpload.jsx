@@ -8,9 +8,13 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import CourseForm from "../../components/upload/CourseForm";
 import HallForm from "../../components/upload/HallForm";
 import LecturerForm from "../../components/upload/LecturerForm";
-import StudentForm from "../../components/upload/StudentForm";
+import StudentGroupForm from "../../components/upload/StudentGroupForm";
 import "./fileUpload.css";
 import axios from "../../../../lib/axios";
+import CourseTable from "../../components/upload/tables/CourseTable";
+import HallTable from "../../components/upload/tables/HallTable";
+import LecturerTable from "../../components/upload/tables/LecturerTable";
+import StudentGroupTable from "../../components/upload/tables/StudentGroupTable";
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
@@ -71,14 +75,61 @@ const FileUpload = () => {
 
   useEffect(() => {
     async function fetchEntityDatas() {
-      const res = await axios.get("/v1/courses");
-      const { failed, data, message } = res.data;
-      if (failed) {
-        alert(message);
+      // Courses
+      const course_res = await axios.get("/v1/courses");
+      const {
+        failed: courses_failed,
+        data: courses_data,
+        message: courses_message,
+      } = course_res.data;
+      if (courses_failed) {
+        alert(courses_message);
         return;
       }
-      setDataMap((prev) => ({ ...prev, course: data }));
+      setDataMap((prev) => ({ ...prev, course: courses_data }));
       setLoadingData((prev) => ({ ...prev, course: false }));
+
+      // // Halls
+      const hall_res = await axios.get("/v1/halls");
+      const {
+        failed: halls_failed,
+        data: halls_data,
+        message: halls_message,
+      } = hall_res.data;
+      if (halls_failed) {
+        alert(halls_message);
+        return;
+      }
+      setDataMap((prev) => ({ ...prev, hall: halls_data }));
+      setLoadingData((prev) => ({ ...prev, hall: false }));
+
+      // Lecturers
+      const lecturer_res = await axios.get("/v1/lecturers");
+      const {
+        failed: lecturers_failed,
+        data: lecturers_data,
+        message: lecturers_message,
+      } = lecturer_res.data;
+      if (lecturers_failed) {
+        alert(lecturers_message);
+        return;
+      }
+      setDataMap((prev) => ({ ...prev, lecturer: lecturers_data }));
+      setLoadingData((prev) => ({ ...prev, lecturer: false }));
+
+      // Student Groups
+      const student_group_res = await axios.get("/v1/student-groups");
+      const {
+        failed: student_groups_failed,
+        data: student_groups_data,
+        message: student_groups_message,
+      } = student_group_res.data;
+      if (student_groups_failed) {
+        alert(student_groups_message);
+        return;
+      }
+      setDataMap((prev) => ({ ...prev, "student group": student_groups_data }));
+      setLoadingData((prev) => ({ ...prev, "student group": false }));
     }
 
     fetchEntityDatas();
@@ -94,7 +145,7 @@ const FileUpload = () => {
       case "lecturer":
         return <LecturerForm {...commonProps} />;
       case "student group":
-        return <StudentForm {...commonProps} />;
+        return <StudentGroupForm {...commonProps} />;
       default:
         return null;
     }
@@ -102,38 +153,23 @@ const FileUpload = () => {
 
   const renderTable = () => {
     const data = dataMap[entityType];
-    if (!data || data.length === 0) {
-      return (
-        <p className="no-entries">
-          {loadingData ? "Loading..." : `No ${entityType}s added yet.`}
-        </p>
-      );
+
+    if (loadingData[entityType]) {
+      return <p className="no-entries">Loading {entityType}s...</p>;
     }
 
-    const columns = Object.keys(data[0]);
-
-    return (
-      <div className="entity-table-wrapper">
-        <table className="entity-table">
-          <thead>
-            <tr>
-              {columns.map((col) => (
-                <th key={col}>{col.toUpperCase()}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((entry, index) => (
-              <tr key={index}>
-                {columns.map((col) => (
-                  <td key={col}>{entry[col]}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
+    switch (entityType) {
+      case "course":
+        return <CourseTable data={data} />;
+      case "hall":
+        return <HallTable data={data} />;
+      case "lecturer":
+        return <LecturerTable data={data} />;
+      case "student group":
+        return <StudentGroupTable data={data} />;
+      default:
+        return null;
+    }
   };
 
   return (

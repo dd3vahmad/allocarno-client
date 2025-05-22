@@ -1,6 +1,7 @@
 import { useState } from "react";
+import axios from "../../../../lib/axios";
 
-const StudentForm = () => {
+const StudentGroupForm = () => {
   const [name, setName] = useState("");
   const [shortName, setShortName] = useState("");
 
@@ -9,14 +10,14 @@ const StudentForm = () => {
     if (!name || !shortName) return alert("All fields are required");
 
     try {
-      const res = await fetch("/api/students", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, shortName }),
-      });
-      const data = await res.json();
-      alert(data.message || "Student group added successfully");
-      // Optionally, reset the fields:
+      const res = await axios.post("/v1/student-groups", { name, shortName });
+      const { failed, message } = await res.data;
+      if (failed) {
+        alert(message || "Error adding student group");
+        return;
+      }
+
+      alert(message || "Student group added successfully");
       setName("");
       setShortName("");
     } catch (err) {
@@ -47,4 +48,4 @@ const StudentForm = () => {
   );
 };
 
-export default StudentForm;
+export default StudentGroupForm;
