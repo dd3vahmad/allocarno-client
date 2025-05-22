@@ -1,40 +1,68 @@
-import React, { useState } from 'react'
-import "./studentSignup.css"
-import { PiStudentLight } from "react-icons/pi";
+import React, { useState } from "react";
+import "./studentSignup.css";
+import { PiGenderIntersexDuotone, PiStudentLight } from "react-icons/pi";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
-import { Link } from 'react-router-dom';
-import dashboardPreview from "../../../assets/images/dashboard-preview.png"
+import { Link, useNavigate } from "react-router-dom";
+import dashboardPreview from "../../../assets/images/dashboard-preview.png";
+import { useAuth } from "../../../context/AuthContext";
 
 const StudentSignup = () => {
+  const { signup } = useAuth();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    matricNumber: '',
-    password: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    gender: "",
+    password: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle signup logic here
-    console.log('Signup attempt with:', formData);
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const emptyInputs =
+        !formData.firstName ||
+        !formData.lastName ||
+        !formData.email ||
+        !formData.gender ||
+        !formData.password;
+
+      if (emptyInputs) {
+        alert("Ensure all input fields are filled.");
+        return;
+      }
+
+      if (formData.password.length < 8) {
+        alert("Password must be atleast 8 chars.");
+        return;
+      }
+
+      await signup(formData);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <div className="signup-container student">
       <div className="signup-form-section">
         <div className="signup-form-content">
           <h1 className="signup-title">Student's Signup</h1>
-          <p className="signup-subtitle">The future of academic scheduling starts now</p>
+          <p className="signup-subtitle">
+            The future of academic scheduling starts now
+          </p>
 
           <form onSubmit={handleSubmit}>
             <div className="name-fields">
@@ -66,12 +94,29 @@ const StudentSignup = () => {
               </span>
               <input
                 type="text"
-                name="matricNumber"
-                placeholder="UTME or Matric Number"
-                value={formData.matricNumber}
+                name="email"
+                placeholder="Student Email"
+                value={formData.email}
                 onChange={handleChange}
                 required
               />
+            </div>
+
+            <div className="input-field">
+              <span className="input-icon">
+                <PiGenderIntersexDuotone />
+              </span>
+              <select
+                type="text"
+                name="gender"
+                placeholder="Gender"
+                value={formData.gender}
+                onChange={handleChange}
+                required
+              >
+                <option value={"male"}>Male</option>
+                <option value={"female"}>Female</option>
+              </select>
             </div>
 
             <div className="input-field password-field">
@@ -90,38 +135,47 @@ const StudentSignup = () => {
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <IoEyeOffOutline />
-
-                ) : (
-                  <IoEyeOutline />
-                )}
+                {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
               </span>
             </div>
 
             <div className="terms-text">
-              By creating an account, you agreeing to our <a href="#" className="policy-link">Privacy Policy</a>, and <a href="#" className="policy-link">Electronics Communication Policy</a>.
+              By creating an account, you agreeing to our{" "}
+              <a href="#" className="policy-link">
+                Privacy Policy
+              </a>
+              , and{" "}
+              <a href="#" className="policy-link">
+                Electronics Communication Policy
+              </a>
+              .
             </div>
 
-            <button type="submit" className="signup-button">
+            <button
+              type="submit"
+              style={{ marginBottom: "10px" }}
+              className="signup-button"
+            >
               Signup
             </button>
+            <p style={{ fontWeight: 600 }}>
+              Already have an account?{" "}
+              <Link to={"/onboarding/s/login"} className="login-link">
+                Login
+              </Link>
+            </p>
           </form>
 
-          <div className='flex items-center justify-between signup-page-footer'>
-
+          <div className="flex items-center justify-between signup-page-footer">
             <Link>
               <p>Privacy Policy</p>
             </Link>
 
-
             <Link>
               <p>Copyright 2025</p>
             </Link>
-
           </div>
         </div>
-
       </div>
 
       <div className="dashboard-preview-section">
@@ -132,7 +186,7 @@ const StudentSignup = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default StudentSignup
+export default StudentSignup;

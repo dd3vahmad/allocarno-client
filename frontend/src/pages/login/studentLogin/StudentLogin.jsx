@@ -1,35 +1,43 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import "./studentLogin.css"
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./studentLogin.css";
 import { PiStudentLight } from "react-icons/pi";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
-import dashboardPreview from "../../../assets/images/dashboard-preview.png"
+import dashboardPreview from "../../../assets/images/dashboard-preview.png";
+import { useAuth } from "../../../context/AuthContext";
 
 const StudentLogin = () => {
-  const [matricNumber, setMatricNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { signin } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login attempt with:', { matricNumber, password });
+    if (password.length < 8) {
+      alert("Password must be a minimum of 8 characters.");
+      return;
+    }
 
+    await signin({ email, password });
+    navigate("/dashboard");
   };
   return (
     <div className="student-login-container student">
       <div className="login-form-section">
         <div className="login-form-content">
           <h1 className="login-title">Student's Login</h1>
-          <p className="login-subtitle">The future of academic scheduling starts now</p>
+          <p className="login-subtitle">
+            The future of academic scheduling starts now
+          </p>
 
           <form onSubmit={handleSubmit}>
-
             <div className="flex items-center gap-1 form-label">
               <div className="separator"></div>
-              <p className="input-text">ENTER YOUR MATRIC NUMBER</p>
+              <p className="input-text">ENTER YOUR CREDENTIALS</p>
               <div className="separator"></div>
             </div>
 
@@ -39,9 +47,9 @@ const StudentLogin = () => {
               </span>
               <input
                 type="text"
-                placeholder="UTME or Matric Number"
-                value={matricNumber}
-                onChange={(e) => setMatricNumber(e.target.value)}
+                placeholder="Student email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -62,11 +70,7 @@ const StudentLogin = () => {
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <IoEyeOffOutline />
-                ) : (
-                  <IoEyeOutline />
-                )}
+                {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
               </span>
             </div>
 
@@ -79,17 +83,14 @@ const StudentLogin = () => {
             </button>
           </form>
 
-          <div className='flex items-center justify-between login-page-footer'>
-
+          <div className="flex items-center justify-between login-page-footer">
             <Link>
               <p>Privacy Policy</p>
             </Link>
 
-
             <Link>
               <p>Copyright 2025</p>
             </Link>
-
           </div>
         </div>
       </div>
@@ -102,7 +103,7 @@ const StudentLogin = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default StudentLogin
+export default StudentLogin;

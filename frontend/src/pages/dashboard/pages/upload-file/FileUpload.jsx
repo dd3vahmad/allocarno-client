@@ -1,83 +1,95 @@
-"use client"
+"use client";
 
-import { useState, useRef } from "react"
-import { FiUploadCloud } from "react-icons/fi"
-import "./fileUpload.css";
+import { useState, useRef } from "react";
+import { FiUploadCloud } from "react-icons/fi";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
+import CourseForm from "../../components/upload/CourseForm";
+import HallForm from "../../components/upload/HallForm";
+import LecturerForm from "../../components/upload/LecturerForm";
+import StudentForm from "../../components/upload/StudentForm";
+import "./fileUpload.css";
 
 const FileUpload = () => {
-  const [file, setFile] = useState(null)
-  const [isDragging, setIsDragging] = useState(false)
-  const fileInputRef = useRef(null)
+  const [file, setFile] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [entityType, setEntityType] = useState("course");
+  const fileInputRef = useRef(null);
 
   const handleDragOver = (e) => {
-    e.preventDefault()
-    setIsDragging(true)
-  }
+    e.preventDefault();
+    setIsDragging(true);
+  };
 
-  const handleDragLeave = () => {
-    setIsDragging(false)
-  }
+  const handleDragLeave = () => setIsDragging(false);
 
   const handleDrop = (e) => {
-    e.preventDefault()
-    setIsDragging(false)
+    e.preventDefault();
+    setIsDragging(false);
 
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const uploadedFile = e.dataTransfer.files[0]
-      if (uploadedFile.size <= 10 * 1024 * 1024) {
-        // 10MB in bytes
-        setFile(uploadedFile)
-      } else {
-        alert("File size exceeds 10MB limit")
-      }
+    const droppedFile = e.dataTransfer.files?.[0];
+    if (droppedFile && droppedFile.size <= 10 * 1024 * 1024) {
+      setFile(droppedFile);
+    } else {
+      alert("File size exceeds 10MB limit");
     }
-  }
+  };
 
   const handleFileChange = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const uploadedFile = e.target.files[0]
-      if (uploadedFile.size <= 10 * 1024 * 1024) {
-        // 10MB in bytes
-        setFile(uploadedFile)
-      } else {
-        alert("File size exceeds 10MB limit")
-      }
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile && selectedFile.size <= 10 * 1024 * 1024) {
+      setFile(selectedFile);
+    } else {
+      alert("File size exceeds 10MB limit");
     }
-  }
-
-  const handleClick = () => {
-    fileInputRef.current.click()
-  }
+  };
 
   const handleUpload = () => {
-    if (file) {
-      // Handle file upload logic here
-      console.log("Uploading file:", file)
-      // You would typically send this to your server
-      alert(`File "${file.name}" is ready to upload!`)
-    } else {
-      alert("Please select a file first")
+    if (!file) return alert("Please select a file");
+    console.log(`Uploading ${entityType} file:`, file);
+    alert(`"${file.name}" uploaded for ${entityType}`);
+  };
+
+  const renderForm = () => {
+    switch (entityType) {
+      case "course":
+        return <CourseForm />;
+      case "hall":
+        return <HallForm />;
+      case "lecturer":
+        return <LecturerForm />;
+      case "student":
+        return <StudentForm />;
+      default:
+        return null;
     }
-  }
+  };
 
   return (
     <div className="dashboard-container">
       <Navbar />
-      {/* sidebar area */}
       <div className="dashboard-main">
-        {/* include the sidebar */}
         <Sidebar currentPage="upload" />
-
-        {/* main File upload area */}
         <div className="content-area">
           <div className="file-upload-container">
-            <h1 className="text-center upload-title">Upload your Files</h1>
+            <h1 className="upload-title">Upload or Add Entities</h1>
+            <select
+              className="entity-selector"
+              value={entityType}
+              onChange={(e) => setEntityType(e.target.value)}
+            >
+              <option value="course">Courses</option>
+              <option value="hall">Halls</option>
+              <option value="lecturer">Lecturers</option>
+              <option value="student">Students</option>
+            </select>
+
             <p className="text-center upload-description">
-              Upload your course schedule in <span className="format">.PDF</span>, <span className="format">.CSV</span>, or{" "}
-              <span className="format">.DOCX</span> format (Max: 10MB)
+              Upload an <span className="format">.XLSX</span>,{" "}
+              <span className="format">.CSV</span>, or{" "}
+              <span className="format">.DOCX</span> file (Max 5MB) or add
+              manually below
             </p>
 
             <div
@@ -85,7 +97,7 @@ const FileUpload = () => {
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              onClick={handleClick}
+              onClick={() => fileInputRef.current?.click()}
             >
               <input
                 type="file"
@@ -99,21 +111,35 @@ const FileUpload = () => {
                 <div className="upload-icon">
                   <FiUploadCloud size={40} />
                 </div>
-                <p className="upload-text">{file ? file.name : "Drag and drop or click to choose files"}</p>
+                <p className="upload-text">
+                  {file ? file.name : "Drag and drop or click to choose files"}
+                </p>
                 <p className="file-size-info">
-                  <span className="info-icon"><AiOutlineExclamationCircle /></span> Max file size 10MB
+                  <span className="info-icon">
+                    <AiOutlineExclamationCircle />
+                  </span>{" "}
+                  Max file size 10MB
                 </p>
               </div>
             </div>
 
-            <button className="upload-button" onClick={handleUpload} disabled={!file}>
-              Upload
+            <button
+              className="upload-button"
+              onClick={handleUpload}
+              disabled={!file}
+            >
+              Upload {entityType}
             </button>
+
+            <div className="manual-entry-form">
+              <h2 className="form-title">Add a {entityType} manually</h2>
+              {renderForm()}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FileUpload
+export default FileUpload;

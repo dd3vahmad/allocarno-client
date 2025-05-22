@@ -1,4 +1,4 @@
-import "./FeatureCard.css"
+import "./featureCard.css";
 
 const FeatureCard = ({ title, description, image }) => {
   return (
@@ -9,7 +9,7 @@ const FeatureCard = ({ title, description, image }) => {
       <h3 className="feature-title">{title}</h3>
       <p className="feature-description">{description}</p>
     </div>
-  )
-}
+  );
+};
 
-export default FeatureCard
+export default FeatureCard;

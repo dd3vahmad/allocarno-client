@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import "./Footer.css"
+import "./footer.css"
 import Container from "../container/Container"
 import allocarnoLogoWhitebg from "../../assets/logo/Allocarno-whitebg.svg"
 import linkedIn from "../../assets/svgs/social-icons/linkedIn.svg"
