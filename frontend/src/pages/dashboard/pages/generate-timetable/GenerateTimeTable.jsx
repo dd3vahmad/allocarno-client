@@ -1,24 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./generate-timetable.css";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { FiChevronDown, FiPlus } from "react-icons/fi";
+import axios from "../../../../lib/axios";
 
 const GenerateTimeTable = () => {
   const [rows, setRows] = useState([
-    { id: 1, courseCode: "", studentGroup: "", lecturer: "" },
-    { id: 2, courseCode: "", studentGroup: "", lecturer: "" },
-    { id: 3, courseCode: "", studentGroup: "", lecturer: "" },
-    { id: 4, courseCode: "", studentGroup: "", lecturer: "" },
-    { id: 5, courseCode: "", studentGroup: "", lecturer: "" },
+    { id: 1, course_code: "", student_group: "", lecturer: "" },
   ]);
-  const [studentGroups] = useState([
-    "Group A",
-    "Group B",
-    "Group C",
-    "Group D",
-    "Group E",
-  ]);
+  const [studentGroups, setStudentGroups] = useState([]);
+  const [lecturers, setLecturers] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   /* create a draft state */
   const [savedDraftTimetable, setSavedDraftTimetable] = useState([]);
@@ -27,8 +20,8 @@ const GenerateTimeTable = () => {
   const addRow = () => {
     const newRow = {
       id: rows.length + 1,
-      courseCode: "",
-      studentGroup: "",
+      course_code: "",
+      student_group: "",
       lecturer: "",
       activeHall: "",
       time: "",
@@ -36,7 +29,7 @@ const GenerateTimeTable = () => {
     setRows([...rows, newRow]);
   };
 
-  /* handle input chhange */
+  /* Handle Input Change */
   const handleInputChange = (id, field, value) => {
     const updatedRows = rows.map((row) => {
       if (row.id === id) {
@@ -63,6 +56,45 @@ const GenerateTimeTable = () => {
     // console.log(savedDraftTimetable)
   };
 
+  useEffect(() => {
+    async function getDatas() {
+      // Courses
+      const {
+        failed: courses_failed,
+        data: courses_data,
+        message: courses_message,
+      } = await axios.get("/v1/courses");
+      if (courses_failed) {
+        alert(courses_message || "Error fetching courses");
+      }
+      setCourses(courses_data.data);
+
+      // Student Groups
+      const {
+        failed: student_groups_failed,
+        data: student_groups_data,
+        message: student_groups_message,
+      } = await axios.get("/v1/student-groups");
+      if (student_groups_failed) {
+        alert(student_groups_message || "Error fetching courses");
+      }
+      setStudentGroups(student_groups_data.data);
+
+      // Lecturers
+      const {
+        failed: lecturers_failed,
+        data: lecturers_data,
+        message: lecturers_message,
+      } = await axios.get("/v1/lecturers");
+      if (lecturers_failed) {
+        alert(lecturers_message || "Error fetching courses");
+      }
+      setLecturers(lecturers_data.data);
+    }
+
+    getDatas();
+  }, []);
+
   return (
     <div className="dashboard-container">
       <Navbar />
@@ -76,7 +108,7 @@ const GenerateTimeTable = () => {
           <form onSubmit={handleGenerateTimeTableSubmission}>
             <div className="timetable-form">
               <div className="table-header">
-                <div className="header-cell">Course Code</div>
+                <div className="header-cell">Course</div>
                 <div className="header-cell">Student Group</div>
                 <div className="header-cell">Lecturer</div>
               </div>
@@ -85,50 +117,75 @@ const GenerateTimeTable = () => {
                 {rows.map((row) => (
                   <div className="table-row" key={row.id}>
                     <div className="table-cell">
-                      <input
-                        type="text"
-                        value={row.courseCode}
-                        onChange={(e) =>
-                          handleInputChange(
-                            row.id,
-                            "courseCode",
-                            e.target.value
-                          )
-                        }
-                      />
-                    </div>
-
-                    <div className="table-cell">
                       <div className="select-container">
                         <select
-                          value={row.studentGroup}
+                          value={row.course_code}
                           onChange={(e) =>
                             handleInputChange(
                               row.id,
-                              "studentGroup",
+                              "course_code",
                               e.target.value
                             )
                           }
                           className="dropdown-select"
                         >
-                          <option value="">Select Group</option>
-                          {studentGroups.map((group) => (
-                            <option key={group} value={group}>
-                              {group}
+                          <option value="">Select Course</option>
+                          {courses.map((course, i) => (
+                            <option key={i} value={course.code}>
+                              {course.name}
                             </option>
                           ))}
                         </select>
                         <FiChevronDown className="dropdown-icon" />
                       </div>
                     </div>
+
                     <div className="table-cell">
-                      <input
-                        type="text"
-                        value={row.lecturer}
-                        onChange={(e) =>
-                          handleInputChange(row.id, "lecturer", e.target.value)
-                        }
-                      />
+                      <div className="select-container">
+                        <select
+                          value={row.student_group}
+                          onChange={(e) =>
+                            handleInputChange(
+                              row.id,
+                              "student_group",
+                              e.target.value
+                            )
+                          }
+                          className="dropdown-select"
+                        >
+                          <option value="">Select Group</option>
+                          {studentGroups.map((group, i) => (
+                            <option key={i} value={group._id}>
+                              {group.name}
+                            </option>
+                          ))}
+                        </select>
+                        <FiChevronDown className="dropdown-icon" />
+                      </div>
+                    </div>
+
+                    <div className="table-cell">
+                      <div className="select-container">
+                        <select
+                          value={row.lecturer}
+                          onChange={(e) =>
+                            handleInputChange(
+                              row.id,
+                              "lecturer",
+                              e.target.value
+                            )
+                          }
+                          className="dropdown-select"
+                        >
+                          <option value="">Select Lecturer</option>
+                          {lecturers.map((lecturer, i) => (
+                            <option key={i} value={lecturer._id}>
+                              {lecturer.name}
+                            </option>
+                          ))}
+                        </select>
+                        <FiChevronDown className="dropdown-icon" />
+                      </div>
                     </div>
                   </div>
                 ))}
