@@ -4,23 +4,28 @@ import "./HallForm.css";
 import TimeSlot from "./TimeSlot";
 import { BsInfoCircle, BsPlus } from "react-icons/bs";
 
-const HallForm = () => {
+const HallForm = ({ onAdd }) => {
   const [name, setName] = useState("");
   const [shortName, setShortName] = useState("");
-  const [capacity, setCapacity] = useState(0);
   const [showInfo, setShowInfo] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const [timeSlots, setTimeSlots] = useState([
     { day: "Sunday", startTime: "", endTime: "" },
   ]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !shortName || capacity <= 0) {
+    if (!name || !shortName) {
       return alert("Please fill in all the required fields correctly");
     }
 
     try {
-      const res = await axios.post("/v1/halls", { name, shortName, capacity });
+      const res = await axios.post("/v1/halls", {
+        name,
+        shortName,
+        isActive,
+        timeSlots,
+      });
       const { message, failed } = await res.data;
 
       if (failed) {
@@ -28,13 +33,13 @@ const HallForm = () => {
         return;
       }
 
+      onAdd({ name, shortName, isActive });
       alert(message || "Hall added successfully");
 
       setName("");
       setShortName("");
-      setCapacity(0);
     } catch (err) {
-      alert("Error adding hall");
+      alert(err.response.data.message || "Error adding hall");
     }
   };
 
@@ -48,13 +53,26 @@ const HallForm = () => {
         onChange={(e) => setName(e.target.value)}
         required
       />
-      <input
-        type="text"
-        placeholder="Hall Short Name"
-        value={shortName}
-        onChange={(e) => setShortName(e.target.value)}
-        required
-      />
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "20px",
+          marginTop: "10px",
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Hall Short Name"
+          value={shortName}
+          onChange={(e) => setShortName(e.target.value)}
+          required
+        />
+        <select onChange={(e) => setIsActive(e.target.value)}>
+          <option value={true}>Active</option>
+          <option value={false}>Inactive</option>
+        </select>
+      </div>
 
       <div className="time-slots-header">
         <h2 className="time-slots-title">Time Slots</h2>

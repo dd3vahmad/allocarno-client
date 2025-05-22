@@ -8,7 +8,6 @@ const HallTable = ({ data }) => {
           <tr>
             <th>NAME</th>
             <th>SHORT NAME</th>
-            <th>CAPACITY</th>
             <th>IS ACTIVE</th>
           </tr>
         </thead>
@@ -17,7 +16,6 @@ const HallTable = ({ data }) => {
             <tr key={idx}>
               <td>{hall.name}</td>
               <td>{hall.shortName}</td>
-              <td>{hall.capacity}</td>
               <td>{hall.isActive ? "Yes" : "No"}</td>
             </tr>
           ))}
