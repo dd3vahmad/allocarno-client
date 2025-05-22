@@ -136,6 +136,9 @@ const FileUpload = () => {
               {renderForm()}
             </div>
           </div>
+
+          {/* Data display */}
+          <div className="entity-container">Entity Data</div>
         </div>
       </div>
     </div>
