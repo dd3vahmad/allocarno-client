@@ -153,9 +153,9 @@ header.dashboard-header {
   left: 250px;
   padding: 3rem 4rem 9rem 1.8rem;
   overflow-y: scroll;
-  display: flex;
-  align-items: start;
-  gap: 24px;
+  /* display: flex; */
+  /* align-items: start; */
+  /* gap: 24px; */
 }
 
 .search-bar {
