@@ -17,17 +17,9 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./router/ProtectedRoute";
 function App() {
   return (
-
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<Dashboard />} /> 
-          <Route path="/dashboard/student" element={<StudentDashboard />} /> 
-          <Route path="/dashboard/student/timetable" element={<TimeTable />} /> 
-          <Route path="/dashboard/student/complain" element={<Complain />} />
-          <Route path="/dashboard/student/registration" element={<StudentDashboard />} /> 
-
           <Route path="/" element={<LandingPage />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/onboarding/s/signup" element={<StudentSignup />} />
@@ -35,7 +27,6 @@ function App() {
           <Route path="/onboarding/l/signup" element={<LecturerSignup />} />
           {/* handle other pages */}
           <Route path="/*" element={<LandingPage />} />
-
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
@@ -46,6 +37,16 @@ function App() {
             <Route path="/dashboard/upload" element={<FileUpload />} />
             <Route path="/dashboard/saved-drafts" element={<SaveDraft />} />
             <Route path="/dashboard/*" element={<Dashboard />} />
+            <Route path="/dashboard/student" element={<StudentDashboard />} />
+            <Route
+              path="/dashboard/student/timetable"
+              element={<TimeTable />}
+            />
+            <Route path="/dashboard/student/complain" element={<Complain />} />
+            <Route
+              path="/dashboard/student/registration"
+              element={<StudentDashboard />}
+            />
           </Route>
           {/* <Route path="/home" element={<Home />} /> */}
         </Routes>
