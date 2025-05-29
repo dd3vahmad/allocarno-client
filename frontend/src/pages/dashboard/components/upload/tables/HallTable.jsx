@@ -1,5 +1,5 @@
 const HallTable = ({ data }) => {
-  if (!data.length) return <p>No halls added yet.</p>;
+  if (!data.length) return <p className="no-entries">No halls added yet.</p>;
 
   return (
     <div className="entity-table-wrapper">

@@ -3,15 +3,22 @@ import axios from "../../../../lib/axios";
 
 const LecturerForm = ({ onAdd }) => {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [gender, setGender] = useState("male");
   const [rank, setRank] = useState("lecturer");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name) return alert("Name is required");
+    if (!email) return alert("Email is required");
 
     try {
-      const res = await axios.post("/v1/lecturers", { name, gender, rank });
+      const res = await axios.post("/v1/lecturers", {
+        name,
+        gender,
+        rank,
+        email,
+      });
       const { failed, message } = await res.data;
       if (failed) {
         alert(message || "Error adding lecturer");
@@ -22,7 +29,8 @@ const LecturerForm = ({ onAdd }) => {
       setName("");
       setGender("male");
       setRank("lecturer");
-      onAdd({ name, gender, rank });
+      setEmail("");
+      onAdd({ name, gender, rank, email });
     } catch (err) {
       alert("Error adding lecturer");
     }
@@ -35,6 +43,13 @@ const LecturerForm = ({ onAdd }) => {
         placeholder="Lecturer Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Lecturer Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         required
       />
       <select
