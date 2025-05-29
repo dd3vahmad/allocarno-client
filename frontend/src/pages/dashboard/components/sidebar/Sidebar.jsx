@@ -18,7 +18,7 @@ const Sidebar = ({ currentPage }) => {
   const handleLogout = () => {
     try {
       signout();
-      navigate("/onboarding");
+      navigate("/login");
     } catch (error) {
       alert("Error logging out");
     }

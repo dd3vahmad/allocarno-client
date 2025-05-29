@@ -51,7 +51,7 @@ const HeroSection = () => {
             </div>
 
             <div className="navbar-buttons">
-              <Link to="/onboarding" className="signup-btn">
+              <Link to="/signup" className="signup-btn">
                 Signup
               </Link>
               <Link to="/login">

@@ -3,7 +3,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import GenerateTimeTable from "./pages/dashboard/pages/generate-timetable/GenerateTimeTable";
 import FileUpload from "./pages/dashboard/pages/upload-file/FileUpload";
 import SaveDraft from "./pages/dashboard/pages/saved-drafts/SaveDraft";
-import Onboarding from "./pages/on-boarding/Onboarding";
+// import Onboarding from "./pages/on-boarding/Onboarding";
 import Signup from "./pages/signup/signup";
 import Login from "./pages/login/login";
 import LandingPage from "./pages/landingPage/LandingPage";
@@ -20,7 +20,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/onboarding" element={<Onboarding />} />
+          {/* <Route path="/onboarding" element={<Onboarding />} /> */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           {/* handle other pages */}

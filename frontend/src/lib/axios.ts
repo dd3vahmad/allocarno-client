@@ -6,7 +6,7 @@ a.defaults.withCredentials = true;
 
 a.interceptors.response.use((res) => {
   if (res.status === 401) {
-    window.location.pathname = "/onboarding/s/login";
+    window.location.pathname = "/login";
   }
   return res;
 });
