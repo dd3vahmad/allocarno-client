@@ -11,6 +11,7 @@ const LecturerTable = ({ data }) => {
             <th>NAME</th>
             <th>GENDER</th>
             <th>RANK</th>
+            <th>Email</th>
           </tr>
         </thead>
         <tbody>
@@ -19,6 +20,7 @@ const LecturerTable = ({ data }) => {
               <td>{lecturer.name}</td>
               <td style={{ textTransform: "capitalize" }}>{lecturer.gender}</td>
               <td style={{ textTransform: "capitalize" }}>{lecturer.rank}</td>
+              <td>{lecturer.email}</td>
             </tr>
           ))}
         </tbody>
