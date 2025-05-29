@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import "./studentSignup.css";
+import { useState } from "react";
+import "./signup.css";
 import { PiGenderIntersexDuotone, PiStudentLight } from "react-icons/pi";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import dashboardPreview from "../../../assets/images/dashboard-preview.png";
-import { useAuth } from "../../../context/AuthContext";
+import dashboardPreview from "../../assets/images/dashboard-preview.png";
+import { useAuth } from "../../context/AuthContext";
 
 const StudentSignup = () => {
   const { signup } = useAuth();

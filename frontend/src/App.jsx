@@ -1,13 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/landingPage/Home";
 import Dashboard from "./pages/dashboard/Dashboard";
 import GenerateTimeTable from "./pages/dashboard/pages/generate-timetable/GenerateTimeTable";
 import FileUpload from "./pages/dashboard/pages/upload-file/FileUpload";
 import SaveDraft from "./pages/dashboard/pages/saved-drafts/SaveDraft";
 import Onboarding from "./pages/on-boarding/Onboarding";
-import StudentSignup from "./pages/signup/student/StudentSignup";
-import LecturerSignup from "./pages/signup/lecturer/LecturerSignup";
-import StudentLogin from "./pages/login/studentLogin/StudentLogin";
+import Signup from "./pages/signup/signup";
+import Login from "./pages/login/login";
 import LandingPage from "./pages/landingPage/LandingPage";
 
 import StudentDashboard from "./pages/dashboard/student/StudentDashboard";
@@ -15,6 +13,7 @@ import TimeTable from "./pages/dashboard/student/pages/timetable/TimeTable";
 import Complain from "./pages/dashboard/student/pages/complaint/Complain";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./router/ProtectedRoute";
+
 function App() {
   return (
     <AuthProvider>
@@ -22,33 +21,23 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/onboarding/s/signup" element={<StudentSignup />} />
-          <Route path="/onboarding/s/login" element={<StudentLogin />} />
-          <Route path="/onboarding/l/signup" element={<LecturerSignup />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
           {/* handle other pages */}
           <Route path="/*" element={<LandingPage />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/generate-timetable" element={<GenerateTimeTable />} />
+            <Route path="/upload" element={<FileUpload />} />
+            <Route path="/saved-drafts" element={<SaveDraft />} />
+            <Route path="/student/timetable" element={<TimeTable />} />
+            <Route path="/student/complain" element={<Complain />} />
             <Route
-              path="/dashboard/generate-timetable"
-              element={<GenerateTimeTable />}
-            />
-            <Route path="/dashboard/upload" element={<FileUpload />} />
-            <Route path="/dashboard/saved-drafts" element={<SaveDraft />} />
-            <Route path="/dashboard/*" element={<Dashboard />} />
-            <Route path="/dashboard/student" element={<StudentDashboard />} />
-            <Route
-              path="/dashboard/student/timetable"
-              element={<TimeTable />}
-            />
-            <Route path="/dashboard/student/complain" element={<Complain />} />
-            <Route
-              path="/dashboard/student/registration"
+              path="/student/registration"
               element={<StudentDashboard />}
             />
           </Route>
-          {/* <Route path="/home" element={<Home />} /> */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>

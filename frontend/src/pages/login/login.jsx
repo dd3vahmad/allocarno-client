@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./studentLogin.css";
+import "./login.css";
 import { PiStudentLight } from "react-icons/pi";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
-import dashboardPreview from "../../../assets/images/dashboard-preview.png";
-import { useAuth } from "../../../context/AuthContext";
+import dashboardPreview from "../../assets/images/dashboard-preview.png";
+import { useAuth } from "../../context/AuthContext";
 
 const StudentLogin = () => {
   const navigate = useNavigate();
