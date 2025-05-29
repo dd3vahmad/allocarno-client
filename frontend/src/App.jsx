@@ -24,7 +24,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           {/* handle other pages */}
-          <Route path="/*" element={<LandingPage />} />
+          <Route path="/*" element={<Dashboard />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />

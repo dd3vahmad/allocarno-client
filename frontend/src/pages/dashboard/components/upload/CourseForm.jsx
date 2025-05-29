@@ -26,7 +26,7 @@ const CourseForm = ({ onAdd }) => {
       setName("");
       onAdd({ name: name.trim(), code, id: new Date().getTime() });
     } catch (err) {
-      alert(err.message || "Error adding course");
+      alert(err.response.data.message || "Error creating course");
     }
   };
 

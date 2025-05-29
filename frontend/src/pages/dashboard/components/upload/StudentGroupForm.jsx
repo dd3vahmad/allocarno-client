@@ -21,7 +21,7 @@ const StudentGroupForm = () => {
       setName("");
       setShortName("");
     } catch (err) {
-      alert("Error adding student group");
+      alert(err.response.data.message || "Error adding student group");
     }
   };
 

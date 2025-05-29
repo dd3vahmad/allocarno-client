@@ -32,7 +32,7 @@ const LecturerForm = ({ onAdd }) => {
       setEmail("");
       onAdd({ name, gender, rank, email });
     } catch (err) {
-      alert("Error adding lecturer");
+      alert(err.response.data.message || "Error adding lecturer");
     }
   };
 
