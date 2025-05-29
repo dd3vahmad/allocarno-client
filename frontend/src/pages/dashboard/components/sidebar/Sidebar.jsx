@@ -48,7 +48,7 @@ const Sidebar = ({ currentPage }) => {
           </Link>
 
           {/* upload data page */}
-          <Link to="/dashboard/upload">
+          <Link to="/upload">
             <li
               className={`flex items-center gap-4 ${
                 currentPage === "upload" ? "active" : ""
@@ -62,7 +62,7 @@ const Sidebar = ({ currentPage }) => {
           </Link>
 
           {/* generate timetable page */}
-          <Link to="/dashboard/generate-timetable">
+          <Link to="/generate-timetable">
             <li
               className={`flex items-center gap-4 ${
                 currentPage === "generate" ? "active" : ""
@@ -76,7 +76,7 @@ const Sidebar = ({ currentPage }) => {
           </Link>
 
           {/* publish to blockchain page */}
-          <Link to="/dashboard/publish">
+          <Link to="/publish">
             <li
               className={`flex items-center gap-4 ${
                 currentPage === "publish" ? "active" : ""
@@ -90,7 +90,7 @@ const Sidebar = ({ currentPage }) => {
           </Link>
 
           {/* resolve conflict */}
-          <Link to="/dashboard/resolve-conflicts">
+          <Link to="/resolve-conflicts">
             <li
               className={`flex items-center gap-4 ${
                 currentPage === "resolve" ? "active" : ""
@@ -104,7 +104,7 @@ const Sidebar = ({ currentPage }) => {
           </Link>
 
           {/* Transaction logs page */}
-          <Link to="/dashboard/transactions">
+          <Link to="/transactions">
             <li
               className={`flex items-center gap-4 ${
                 currentPage === "transaction" ? "active" : ""
@@ -118,7 +118,7 @@ const Sidebar = ({ currentPage }) => {
           </Link>
 
           {/* saved drafts page */}
-          <Link to="/dashboard/saved-drafts">
+          <Link to="/saved-drafts">
             <li
               className={`flex items-center gap-4 ${
                 currentPage === "saves-draft" ? "active" : ""
@@ -142,7 +142,7 @@ const Sidebar = ({ currentPage }) => {
         </div>
         <ul className="sidebar-menu">
           {/* settings */}
-          <Link to="/dashboard/settings">
+          <Link to="/settings">
             <li
               className={`flex items-center gap-4 ${
                 currentPage === "settings" ? "active" : ""
