@@ -10,7 +10,7 @@ const HallForm = ({ onAdd }) => {
   const [showInfo, setShowInfo] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [timeSlots, setTimeSlots] = useState([
-    { day: "Sunday", startTime: "", endTime: "" },
+    { id: Date.now(), day: "Sunday", startTime: "", endTime: "" },
   ]);
 
   const handleSubmit = async (e) => {
@@ -41,6 +41,15 @@ const HallForm = ({ onAdd }) => {
     } catch (err) {
       alert(err.response.data.message || "Error adding hall");
     }
+  };
+
+  const handleSlotChange = (e, id) => {
+    const { name, value } = e.target;
+    setTimeSlots((prevSlots) =>
+      prevSlots.map((slot) =>
+        slot.id === id ? { ...slot, [name]: value } : slot
+      )
+    );
   };
 
   return (
@@ -91,7 +100,7 @@ const HallForm = ({ onAdd }) => {
       )}
       <div className="time-slots">
         {timeSlots.map((slot, i) => (
-          <TimeSlot key={i} slot={slot} />
+          <TimeSlot key={i} slot={slot} handleSlotChange={handleSlotChange} />
         ))}
       </div>
 
@@ -103,7 +112,7 @@ const HallForm = ({ onAdd }) => {
           onClick={() =>
             setTimeSlots((prev) => [
               ...prev,
-              { day: "Sunday", startTime: "", endTIme: "" },
+              { day: "Sunday", startTime: "", endTime: "" },
             ])
           }
           className="add-slot-button"

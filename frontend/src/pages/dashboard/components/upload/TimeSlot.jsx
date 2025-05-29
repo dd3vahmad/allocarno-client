@@ -1,6 +1,6 @@
 import "./TimeSlot.css";
 
-const TimeSlot = ({ handleChange, slot }) => {
+const TimeSlot = ({ handleChange, slot, handleSlotChange }) => {
   return (
     <div className="time-slot">
       <div className="time-slot-input-group">
@@ -24,6 +24,7 @@ const TimeSlot = ({ handleChange, slot }) => {
           type="time"
           name="startTime"
           className="time-slot-input"
+          onChange={handleSlotChange}
         />
       </div>
 
@@ -35,6 +36,7 @@ const TimeSlot = ({ handleChange, slot }) => {
           type="time"
           name="endTime"
           className="time-slot-input"
+          onChange={(e) => handleSlotChange(e, slot.id)}
         />
       </div>
     </div>
