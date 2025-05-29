@@ -16,9 +16,9 @@ const Onboarding = () => {
   const handleContinue = () => {
     if (selectedOption) {
       if (selectedOption === "student") {
-        window.location.href = "/onboarding/s/signup";
+        window.location.href = "/signup";
       } else if (selectedOption === "lecturer") {
-        window.location.href = "/onboarding/l/signup";
+        window.location.href = "/signup";
       } else {
         return;
       }
@@ -89,7 +89,7 @@ const Onboarding = () => {
 
               <p className="login-text">
                 Already have an account?{" "}
-                <a href="/onboarding/s/login" className="login-link">
+                <a href="/login" className="login-link">
                   Login
                 </a>
               </p>

@@ -47,7 +47,7 @@ const StudentLogin = () => {
               </span>
               <input
                 type="text"
-                placeholder="Student email"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -82,6 +82,13 @@ const StudentLogin = () => {
               Sign In
             </button>
           </form>
+
+          <p style={{ fontWeight: 600 }}>
+            Don&apos;t have an account?{" "}
+            <Link to={"/signup"} className="login-link">
+              Signup
+            </Link>
+          </p>
 
           <div className="flex items-center justify-between login-page-footer">
             <Link>
