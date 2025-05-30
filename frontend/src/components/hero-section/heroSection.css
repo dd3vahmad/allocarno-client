@@ -6,6 +6,25 @@
   padding: 60px 20px;
 }
 
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
+  border-radius: 24px;
+  background: linear-gradient(to right, #dbdaff61 20%, #fafff284 80%)
+      padding-box,
+    linear-gradient(to right, #fafff2 20%, #dbdaff 80%) border-box; /* Border gradient */
+  border: 2px solid transparent; /* Transparent border */
+  padding: 6px 20px;
+  box-shadow: inset 1px 1px 1px #dbdaff;
+}
+
+.notification-text {
+  font-size: 14px;
+  color: #3c3a65;
+}
+
 .hero-section-wrapper {
   position: relative;
   width: 98%;
