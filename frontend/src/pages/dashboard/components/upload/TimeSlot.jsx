@@ -24,7 +24,7 @@ const TimeSlot = ({ handleChange, slot, handleSlotChange }) => {
           type="time"
           name="startTime"
           className="time-slot-input"
-          onChange={handleSlotChange}
+          onChange={(e) => handleSlotChange(e, slot.id)}
         />
       </div>
 

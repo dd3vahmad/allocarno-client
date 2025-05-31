@@ -41,19 +41,57 @@ const GenerateTimeTable = () => {
   };
 
   /* handle submission */
-  const handleGenerateTimeTableSubmission = (e) => {
+  const handleGenerateTimeTableSubmission = async (e) => {
     e.preventDefault();
 
-    /* generated timetable has been saved to 'rows' */
-    // console.log(rows)
+    if (!rows.length) {
+      alert("Schedules required");
+      return
+    }
+
+    try {
+      const res = await axios.post("/v1/timetables", { schedules: rows });
+      const { message, failed } = await res.data;
+
+      if (failed) {
+        alert(message || "Error generating timetable.");
+        return;
+      }
+
+      alert(message || "Timetable generated successfully");
+
+      setRows([]);
+    } catch (err) {
+      alert(err.response.data.message || "Error generating timetable");
+    }
   };
 
   /* handle draft */
-  const saveToDraft = () => {
+  const saveToDraft = async () => {
     setSavedDraftTimetable(rows);
 
-    /* save to draft logic goes in here */
-    // console.log(savedDraftTimetable)
+    e.preventDefault();
+
+    if (!rows.length) {
+      alert("Schedules required");
+      return
+    }
+
+    try {
+      const res = await axios.post("/v1/timetables/draft", { schedules: rows });
+      const { message, failed } = await res.data;
+
+      if (failed) {
+        alert(message || "Error saving timetable.");
+        return;
+      }
+
+      alert(message || "Timetable saved successfully");
+
+      setRows([]);
+    } catch (err) {
+      alert(err.response.data.message || "Error saving timetable");
+    }
   };
 
   useEffect(() => {
